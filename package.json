@@ -1,0 +1,32 @@
+{
+  "name": "storj-farmer-cli",
+  "version": "1.0.0",
+  "description": "command line interface for farming on the storj network",
+  "preferGlobal": true,
+  "bin": {
+    "storj": "bin/farmer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storj/farmer-cli.git"
+  },
+  "keywords": [
+    "storj",
+    "farmer",
+    "cli"
+  ],
+  "author": "Gordon Hall <gordon@storj.io>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/storj/farmer-cli/issues"
+  },
+  "homepage": "https://github.com/storj/farmer-cli#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "bs58": "^3.0.0",
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "prompt": "^1.0.0",
+    "storj-farmer": "^1.0.0"
+  }
+}
