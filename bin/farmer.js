@@ -9,6 +9,7 @@ var path = require('path');
 var async = require('async');
 var program = require('commander');
 var FarmerFactory = require('storj-farmer').FarmerFactory;
+var SpeedTest = require('speedofme').Client;
 var storj = require('storj-farmer/node_modules/storj');
 var platform = require('os').platform();
 var prompt = require('prompt');
@@ -17,6 +18,8 @@ var colors = require('colors/safe');
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
+var SPEEDTEST_URL = '';
+var SPEEDTEST_RESULT_PATH = path.join(require('os').tmpdir(), 'speedtest.json');
 
 prompt.message = colors.white.bold(' STORJ-FARMER-CLI');
 prompt.delimiter = colors.blue(' >> ');
@@ -194,28 +197,94 @@ function decrypt(password, str) {
 }
 
 function report(reporter, config, farmer) {
-  getDirectorySize(config.storage.path, function(err, size) {
-    if (err) {
-      return;
-    }
+  var bandwidth = fs.existsSync(SPEEDTEST_RESULT_PATH) ?
+                  fs.readFileSync(SPEEDTEST_RESULT_PATH).toString() :
+                  null;
+  var needstest = false;
+  var hours25 = 60 * 60 * 25 * 1000;
 
-    reporter.send({
-      storage: {
-        free: config.storage.size,
-        used: size
-      },
-      bandwidth: {
-        upload: 12, // TODO: Measure this.
-        download: 32 // TODO: Measure this.
-      },
-      contact: farmer._contact,
-      payment: config.address
-    }, function(/* err, result */) {
-      // TODO: Handle result
+  function send() {
+    getDirectorySize(config.storage.path, function(err, size) {
+      if (err) {
+        return;
+      }
+
+      var totalSpace = Number(config.storage.size);
+
+      switch (config.storage.unit) {
+        case 'MB':
+          totalSpace = totalSpace * Math.pow(1024, 2);
+          break;
+        case 'GB':
+          totalSpace = totalSpace * Math.pow(1024, 3);
+          break;
+        case 'TB':
+          totalSpace = totalSpace * Math.pow(1024, 4);
+          break;
+        default:
+          // NOOP
+      }
+
+      var report = {
+        storage: {
+          free: config.storage.size,
+          used: size
+        },
+        bandwidth: {
+          upload: 12, // TODO: Measure this.
+          download: 32 // TODO: Measure this.
+        },
+        contact: farmer._contact,
+        payment: config.address
+      };
+
+      reporter.send(report, function(err, report) {
+        process.stdout.write(JSON.stringify({
+          type: err ? 'error' : 'info',
+          message: err ? err.message :
+                         'sent telemetry report ' + JSON.stringify(report),
+          timestamp: new Date()
+        }));
+      });
     });
-  });
 
-  setTimeout(report, 5 * (60 * 1000));
+    setTimeout(report, 5 * (60 * 1000));
+  }
+
+  if (!bandwidth) {
+    needstest = true;
+  } else {
+    bandwidth = JSON.parse(bandwidth);
+
+    if ((new Date() - new Date(bandwidth.timestamp)) > hours25) {
+      needstest = true;
+    }
+  }
+
+  if (needstest && SPEEDTEST_URL) {
+    SpeedTest({ url: SPEEDTEST_URL }).test(function(err, result) {
+      if (err) {
+        return process.stdout.write(JSON.stringify({
+          type: 'error',
+          message: err.message,
+          timestamp: new Date()
+        }));
+      }
+
+      bandwidth = {
+        upload: result.upload,
+        download: result.download,
+        timestamp: Date.now()
+      };
+
+      console.log(bandwidth);
+
+      fs.writeFileSync(SPEEDTEST_RESULT_PATH, JSON.stringify(bandwidth));
+      send();
+    });
+  } else {
+    send();
+  }
 }
 
 function start(datadir) {
