@@ -231,8 +231,8 @@ function report(reporter, config, farmer) {
           used: size
         },
         bandwidth: {
-          upload: 12, // TODO: Measure this.
-          download: 32 // TODO: Measure this.
+          upload: bandwidth ? Number(bandwidth.upload) : 0,
+          download: bandwidth ? Number(bandwidth.download) : 0
         },
         contact: farmer._contact,
         payment: config.address
@@ -276,8 +276,6 @@ function report(reporter, config, farmer) {
         download: result.download,
         timestamp: Date.now()
       };
-
-      console.log(bandwidth);
 
       fs.writeFileSync(SPEEDTEST_RESULT_PATH, JSON.stringify(bandwidth));
       send();
