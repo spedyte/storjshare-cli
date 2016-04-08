@@ -8,9 +8,9 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var program = require('commander');
-var FarmerFactory = require('storj-farmer').FarmerFactory;
+var storj = require('storj');
+var FarmerFactory = storj.abstract.FarmerFactory;
 var SpeedTest = require('speedofme').Client;
-var storj = require('storj-farmer').__core;
 var platform = require('os').platform();
 var prompt = require('prompt');
 var url = require('url');
@@ -331,7 +331,7 @@ function start(datadir) {
       }
     };
 
-    FarmerFactory.create(farmerconf, function(err, farmer) {
+    FarmerFactory().create(farmerconf, function(err, farmer) {
       if (err) {
         console.log(err);
         process.exit();

@@ -1,7 +1,7 @@
-Storj Farmer CLI
-================
+Storj Farmer
+============
 
-A command line interface for farming on the Storj network.
+A command line program for farming data on the Storj network.
 
 Installation
 ------------
@@ -9,7 +9,7 @@ Installation
 Install *globally* with NPM:
 
 ```
-[sudo] npm install -g storj-farmer-cli
+[sudo] npm install -g storj-farmer
 ```
 
 Once installed, you will have access to the `storj` command line interface. To
@@ -19,9 +19,9 @@ make sure everything installed correctly, run:
 storj --help
 ```
 
-The first time you run the `storj` CLI, it will walk you through a setup wizard
-to generate a configuration file and an ECDSA private key which will be
-encrypted with a passphrase of your choice.
+The first time you run the `storj` program, it will walk you through a setup
+wizard to generate a configuration file and an ECDSA private key which will be
+encrypted with a pass phrase of your choice.
 
 ```
 > $ storj
@@ -103,12 +103,12 @@ Configuration
 -------------
 
 For complete documentation on the format of the configuration file, see
-[storj/farmer](https://github.com/storj/farmer).
+[Abstract Interfaces](http://storj.github.io/core/tutorial-abstract-interfaces.html).
 
 License
 -------
 
-Storj Farmer CLI - A command line interface for farming on the Storj network.
+Storj Farmer - A command line program for farming data on the Storj network.
 Copyright (C) 2016  Storj Labs, Inc
 
 This program is free software: you can redistribute it and/or modify
