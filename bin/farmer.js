@@ -18,7 +18,7 @@ var colors = require('colors/safe');
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
-var SPEEDTEST_URL = '';
+var SPEEDTEST_URL = 'ws://speedofme.storj.io';
 var SPEEDTEST_RESULT_PATH = path.join(require('os').tmpdir(), 'speedtest.json');
 
 prompt.message = colors.white.bold(' STORJ-FARMER-CLI');

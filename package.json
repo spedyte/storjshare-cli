@@ -1,6 +1,6 @@
 {
   "name": "storj-farmer-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "command line interface for farming on the storj network",
   "preferGlobal": true,
   "bin": {
@@ -27,7 +27,7 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "prompt": "^1.0.0",
-    "speedofme": "^1.0.0",
+    "speedofme": "^1.0.1",
     "storj-farmer": "^1.0.3"
   }
 }
