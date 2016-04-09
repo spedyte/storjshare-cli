@@ -1,10 +1,10 @@
 {
   "name": "storj-farmer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
-    "storj": "bin/farmer.js"
+    "storjfarm": "bin/farmer.js"
   },
   "repository": {
     "type": "git",
