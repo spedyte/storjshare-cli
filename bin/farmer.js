@@ -248,7 +248,7 @@ function report(reporter, config, farmer) {
       });
     });
 
-    setTimeout(report, 5 * (60 * 1000));
+    setTimeout(function(){report(reporter, config, farmer);}, 5 * (60 * 1000));
   }
 
   if (!bandwidth) {
