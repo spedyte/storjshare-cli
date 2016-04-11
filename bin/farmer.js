@@ -10,7 +10,7 @@ var async = require('async');
 var program = require('commander');
 var storj = require('storj');
 var FarmerFactory = storj.abstract.FarmerFactory;
-var SpeedTest = require('speedofme').Client;
+var SpeedTest = require('myspeed').Client;
 var platform = require('os').platform();
 var prompt = require('prompt');
 var url = require('url');
@@ -25,7 +25,10 @@ prompt.message = colors.white.bold(' STORJ-FARMER-CLI');
 prompt.delimiter = colors.blue(' >> ');
 
 program
-  .version(storj.version)
+  .version(
+    'Farmer: v' + require('../package').version + '\n' +
+    'Core:   v' + storj.version
+  )
   .option(
     '-d, --datadir [path]',
     'Set configuration and storage path',
@@ -98,7 +101,7 @@ var schema = {
       default: FarmerFactory.DEFAULTS.storage.size + FarmerFactory.DEFAULTS.storage.unit,
       message: 'Invalid format supplied, try 50MB, 2GB, or 1TB',
       conform: function(value) {
-        var size = parseInt(value);
+        var size = parseFloat(value);
         var unit = value.split(size)[1];
 
         return size && (['MB','GB','TB'].indexOf(unit) !== -1);
@@ -118,9 +121,10 @@ var schema = {
       description: 'Enter the path to store your encrypted private key',
       required: true,
       default: path.join(program.datadir || path.join(HOME, '.storj-farmer-cli'), 'id_ecdsa'),
-      message: 'Cannot write key to path that does not exist',
+      message: 'Refusing to overwrite the supplied path',
       conform: function(value) {
-        return fs.existsSync(path.dirname(value));
+        return fs.existsSync(path.dirname(value)) &&
+               !fs.existsSync(value);
       }
     },
     password: {
@@ -248,7 +252,9 @@ function report(reporter, config, farmer) {
       });
     });
 
-    setTimeout(function(){report(reporter, config, farmer);}, 5 * (60 * 1000));
+    setTimeout(function() {
+      report(reporter, config, farmer);
+    }, 5 * (60 * 1000));
   }
 
   if (!bandwidth) {

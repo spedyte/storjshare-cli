@@ -12,11 +12,11 @@ Install *globally* with NPM:
 [sudo] npm install -g storj-farmer
 ```
 
-Once installed, you will have access to the `storj` command line interface. To
+Once installed, you will have access to the `storjfarm` command line interface. To
 make sure everything installed correctly, run:
 
 ```
-storj --help
+storjfarm --help
 ```
 
 The first time you run the `storj` program, it will walk you through a setup
@@ -24,7 +24,7 @@ wizard to generate a configuration file and an ECDSA private key which will be
 encrypted with a pass phrase of your choice.
 
 ```
-> $ storj
+> $ storjfarm
 
  Let's setup your Storj configuration!
 
@@ -61,7 +61,7 @@ Now you can instruct PM2 to start your farmer in the background and keep it
 running, restarting it automatically in the event that it goes down.
 
 ```
-pm2 start path/to/node-storj/bin/storj.js -- --password <your_password>
+pm2 start path/to/storj-farmer/bin/farmer.js -- --password <your_password>
 ```
 
 Check the logs at any time with:

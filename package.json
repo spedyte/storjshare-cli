@@ -1,6 +1,6 @@
 {
   "name": "storj-farmer",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
@@ -27,7 +27,7 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "prompt": "^1.0.0",
-    "speedofme": "^1.0.1",
+    "myspeed": "^1.0.1",
     "storj": "^0.5.2"
   }
 }
