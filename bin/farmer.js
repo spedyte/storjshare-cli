@@ -39,11 +39,6 @@ program
     'Password to unlock your private key',
     ''
   )
-  .option(
-    '-t, --testnet <postfix>',
-    'Postfix the version identifier to partition the network',
-    ''
-  )
   .parse(process.argv);
 
 var schema = {
@@ -239,7 +234,7 @@ function report(reporter, config, farmer) {
           download: bandwidth ? Number(bandwidth.download) : 0
         },
         contact: farmer._contact,
-        payment: config.payment
+        payment: config.address
       };
 
       reporter.send(report, function(err, report) {
@@ -327,9 +322,6 @@ function start(datadir) {
       address: config.network.address,
       port: config.network.port,
       seeds: config.network.seeds,
-      version: program.testnet ?
-               storj.version + '-' + program.testnet :
-               storj.version,
       forward: config.network.forward,
       logger: new Logger()
     };
