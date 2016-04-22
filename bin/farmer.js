@@ -322,8 +322,9 @@ function start(datadir) {
       address: config.network.address,
       port: config.network.port,
       seeds: config.network.seeds,
-      forward: config.network.forward,
-      logger: new Logger()
+      noforward: !config.network.forward,
+      logger: new Logger(),
+      tunport: config.network.port ? config.network.port + 1 : 0
     };
 
     farmerconf.logger.pipe(process.stdout);
