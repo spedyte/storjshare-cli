@@ -82,9 +82,9 @@ opcode sequences in your configuration file:
   ...
   "network": {
     "opcodes": [
-      "01020202",
-      "02020202",
-      "03020202"
+      "0f01020202",
+      "0f02020202",
+      "0f03020202"
     ]
   }
   ...
