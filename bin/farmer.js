@@ -9,12 +9,12 @@ var path = require('path');
 var async = require('async');
 var program = require('commander');
 var storj = require('storj');
-var FarmerFactory = storj.abstract.FarmerFactory;
 var SpeedTest = require('myspeed').Client;
 var platform = require('os').platform();
 var prompt = require('prompt');
 var url = require('url');
 var colors = require('colors/safe');
+var Logger = require('kad-logger-json');
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
@@ -39,11 +39,6 @@ program
     'Password to unlock your private key',
     ''
   )
-  .option(
-    '-t, --testnet <postfix>',
-    'Postfix the version identifier to partition the network',
-    ''
-  )
   .parse(process.argv);
 
 var schema = {
@@ -51,13 +46,13 @@ var schema = {
     address: {
       description: 'Enter your public hostname or IP address',
       required: true,
-      default: FarmerFactory.DEFAULTS.network.address,
+      default: storj.Network.DEFAULTS.address,
     },
     port: {
       description: 'Enter the port number the service should use (0 for random)',
       required: false,
       type: 'number',
-      default: FarmerFactory.DEFAULTS.network.port,
+      default: storj.Network.DEFAULTS.port,
       conform: function(value) {
         return (value > -1) && (value <= 65535);
       }
@@ -66,12 +61,12 @@ var schema = {
       description: 'Use NAT traversal strategies to become available on the network',
       required: true,
       type: 'boolean',
-      default: FarmerFactory.DEFAULTS.network.forward
+      default: storj.Network.DEFAULTS.forward
     },
     seed: {
       description: 'Enter the URI of a known seed',
       required: false,
-      default: FarmerFactory.DEFAULTS.network.seeds[0],
+      default: storj.Network.DEFAULTS.seeds[0],
       message: 'Invalid seed URI supplied, make sure the nodeID is correct',
       conform: function(value) {
         var parsed = url.parse(value);
@@ -98,7 +93,7 @@ var schema = {
     space: {
       description: 'Enter the amount of storage space you can share',
       required: true,
-      default: FarmerFactory.DEFAULTS.storage.size + FarmerFactory.DEFAULTS.storage.unit,
+      default: '2GB',
       message: 'Invalid format supplied, try 50MB, 2GB, or 1TB',
       conform: function(value) {
         var size = parseFloat(value);
@@ -114,7 +109,7 @@ var schema = {
     telemetry: {
       description: 'Will you share telemetry data with Storj to help improve the network?',
       required: true,
-      default: FarmerFactory.DEFAULTS.telemetry.enabled,
+      default: false,
       type: 'boolean'
     },
     keypath: {
@@ -248,7 +243,7 @@ function report(reporter, config, farmer) {
           message: err ? err.message :
                          'sent telemetry report ' + JSON.stringify(report),
           timestamp: new Date()
-        }));
+        }) + '\n');
       });
     });
 
@@ -274,7 +269,7 @@ function report(reporter, config, farmer) {
           type: 'error',
           message: err.message,
           timestamp: new Date()
-        }));
+        }) + '\n');
       }
 
       bandwidth = {
@@ -315,47 +310,41 @@ function start(datadir) {
       process.exit();
     }
 
+    var keypair = storj.KeyPair(privkey);
     var farmerconf = {
-      key: privkey,
-      address: config.address,
+      keypair: keypair,
+      payment: config.address,
       storage: {
         path: datadir,
         size: config.storage.size,
         unit: config.storage.unit
       },
-      network: {
-        address: config.network.address,
-        port: config.network.port,
-        seeds: config.network.seeds,
-        version: program.testnet ?
-                 storj.version + '-' + program.testnet :
-                 storj.version,
-        forward: config.network.forward
-      },
-      telemetry: {
-        enabled: config.telemetry.enabled
-      }
+      address: config.network.address,
+      port: config.network.port,
+      seeds: config.network.seeds,
+      noforward: !config.network.forward,
+      logger: new Logger(),
+      tunport: config.network.port ? config.network.port + 1 : 0,
+      tunnels: config.network.tunnels
     };
 
-    FarmerFactory().create(farmerconf, function(err, farmer) {
+    farmerconf.logger.pipe(process.stdout);
+
+    var farmer = new storj.FarmerInterface(farmerconf);
+
+    farmer.join(function(err) {
       if (err) {
         console.log(err);
         process.exit();
       }
-
-      farmer.logger.pipe(process.stdout);
-
-      farmer.node.join(function(err) {
-        if (err) {
-          console.log(err);
-          process.exit();
-        }
-      });
-
-      if (farmer.reporter) {
-        report(farmer.reporter, config, farmer.node);
-      }
     });
+
+    if (config.telemetry.enabled) {
+      report(storj.TelemetryReporter(
+        'http://status.storj.io',
+        keypair
+      ), config, farmer);
+    }
   }
 
   if (program.password) {
@@ -397,7 +386,7 @@ if (!fs.existsSync(program.datadir)) {
         address: result.address,
         port: result.port,
         seeds: [result.seed],
-        opcodes: ['01020202', '02020202', '03020202'],
+        opcodes: ['0f01020202', '0f02020202', '0f03020202'],
         forward: result.forward
       },
       telemetry: {
