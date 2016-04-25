@@ -324,7 +324,8 @@ function start(datadir) {
       seeds: config.network.seeds,
       noforward: !config.network.forward,
       logger: new Logger(),
-      tunport: config.network.port ? config.network.port + 1 : 0
+      tunport: config.network.port ? config.network.port + 1 : 0,
+      tunnels: config.network.tunnels
     };
 
     farmerconf.logger.pipe(process.stdout);

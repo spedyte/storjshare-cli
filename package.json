@@ -29,6 +29,6 @@
     "kad-logger-json": "^0.1.1",
     "myspeed": "^1.0.1",
     "prompt": "^1.0.0",
-    "storj": "storj/core#feature/tunnelling"
+    "storj": "^0.6.0"
   }
 }
