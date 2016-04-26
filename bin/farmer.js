@@ -226,7 +226,7 @@ function report(reporter, config, farmer) {
 
       var report = {
         storage: {
-          free: config.storage.size,
+          free: totalSpace,
           used: size
         },
         bandwidth: {
@@ -286,6 +286,14 @@ function report(reporter, config, farmer) {
   }
 }
 
+function opcodeUpdate(opcode) {
+  if (Buffer(opcode, 'hex')[0] !== 0xf) {
+    return '0f' + opcode;
+  } else {
+    return opcode;
+  }
+}
+
 function start(datadir) {
   if (!fs.existsSync(datadir)) {
     console.log('The supplied datadir does not exist');
@@ -325,7 +333,11 @@ function start(datadir) {
       noforward: !config.network.forward,
       logger: new Logger(),
       tunport: config.network.port ? config.network.port + 1 : 0,
-      tunnels: config.network.tunnels
+      tunnels: config.network.tunnels,
+      gateways: config.network.gateways,
+      opcodes: !Array.isArray(config.network.opcodes) ?
+               storj.FarmerInterface.DEFAULTS.opcodes :
+               config.network.opcodes.map(opcodeUpdate)
     };
 
     farmerconf.logger.pipe(process.stdout);
@@ -340,10 +352,16 @@ function start(datadir) {
     });
 
     if (config.telemetry.enabled) {
-      report(storj.TelemetryReporter(
-        'http://status.storj.io',
-        keypair
-      ), config, farmer);
+      try {
+        report(storj.TelemetryReporter(
+          'http://status.storj.io',
+          keypair
+        ), config, farmer);
+      } catch (err) {
+        farmerconf.logger.error(
+          'telemetry reporter failed, reason: %s', err.message
+        );
+      }
     }
   }
 
@@ -371,14 +389,14 @@ if (!fs.existsSync(program.datadir)) {
       return console.log(err);
     }
 
-    var size = parseInt(result.space);
+    var size = parseFloat(result.space);
     var unit = result.space.split(size.toString())[1];
 
     var config = {
       keypath: result.keypath,
       address: result.payto,
       storage: {
-        path: program.datadir,
+        path: result.datadir,
         size: size,
         unit: unit
       },
@@ -387,7 +405,9 @@ if (!fs.existsSync(program.datadir)) {
         port: result.port,
         seeds: [result.seed],
         opcodes: ['0f01020202', '0f02020202', '0f03020202'],
-        forward: result.forward
+        forward: result.forward,
+        tunnels: 3,
+        gateways: { min: 0, max: 0 }
       },
       telemetry: {
         service: 'https://status.storj.io',
