@@ -12,6 +12,12 @@ Install *globally* with NPM:
 [sudo] npm install -g storj-farmer
 ```
 
+Update old version *globally* with NPM:
+
+```
+[sudo] npm update -g storj-farmer
+```
+
 Once installed, you will have access to the `storjfarm` command line interface. To
 make sure everything installed correctly, run:
 
