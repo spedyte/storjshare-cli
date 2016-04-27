@@ -49,7 +49,7 @@ var schema = {
       default: storj.Network.DEFAULTS.address,
     },
     port: {
-      description: 'Enter the port number the service should use (0 for random)',
+      description: 'Enter the TCP port number the service should use (0 for random)',
       required: false,
       type: 'number',
       default: storj.Network.DEFAULTS.port,
@@ -111,6 +111,33 @@ var schema = {
       required: true,
       default: false,
       type: 'boolean'
+    },
+    tunnels: {
+      description: 'Enter the number of tunnel connection other farmer can open through you',
+      required: true,
+      type: 'number',
+      default: storj.Network.DEFAULTS.tunnels,
+      conform: function(value) {
+        return (value > -1);
+      }
+    },
+    gatewaysmin: {
+      description: 'Enter the start TCP port for tunnel connections (0 for random)',
+      required: true,
+      type: 'number',
+      default: storj.Network.DEFAULTS.gateways.min,
+      conform: function(value) {
+        return (value > -1) && (value <= 65535);
+      }
+    },
+    gatewaysmax: {
+      description: 'Enter the end TCP port for tunnel connections (0 for random)',
+      required: true,
+      type: 'number',
+      default: storj.Network.DEFAULTS.gateways.max,
+      conform: function(value) {
+        return (value > -1) && (value <= 65535);
+      }
     },
     keypath: {
       description: 'Enter the path to store your encrypted private key',
@@ -406,8 +433,8 @@ if (!fs.existsSync(program.datadir)) {
         seeds: [result.seed],
         opcodes: ['0f01020202', '0f02020202', '0f03020202'],
         forward: result.forward,
-        tunnels: 3,
-        gateways: { min: 0, max: 0 }
+        tunnels: result.tunnels,
+        gateways: { min: result.gatewaysmin, max: result.gatewaysmax }
       },
       telemetry: {
         service: 'https://status.storj.io',
