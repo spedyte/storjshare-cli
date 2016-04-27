@@ -1,6 +1,6 @@
 {
   "name": "storj-farmer",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
@@ -29,6 +29,6 @@
     "kad-logger-json": "^0.1.2",
     "myspeed": "^1.0.1",
     "prompt": "^1.0.0",
-    "storj": "^0.6.2"
+    "storj": "^0.6.3"
   }
 }
