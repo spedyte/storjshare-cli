@@ -43,6 +43,7 @@ encrypted with a pass phrase of your choice.
  STORJ-FARMER-CLI >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
  STORJ-FARMER-CLI >> Will you share telemetry data with Storj to help improve the network? >>  (false) true
  STORJ-FARMER-CLI >> Enter the number of tunnel connection other farmer can open through you >>  (3)
+ STORJ-FARMER-CLI >> Enter the TCP port number the tunnel server should use (0 for random) >>  (0)
  STORJ-FARMER-CLI >> Enter the start TCP port for tunnel connections (0 for random) >>  (0)
  STORJ-FARMER-CLI >> Enter the end TCP port for tunnel connections (0 for random) >>  (0)
  STORJ-FARMER-CLI >> Enter the path to store your encrypted private key >>  (/home/gordon/.storj-farmer-cli/id_ecdsa)

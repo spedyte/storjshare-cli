@@ -121,6 +121,15 @@ var schema = {
         return (value > -1);
       }
     },
+    tunnelport: {
+      description: 'Enter the TCP port number the tunnel server should use (0 for random)',
+      required: true,
+      type: 'number',
+      default: storj.Network.DEFAULTS.tunport,
+      conform: function(value) {
+        return (value > -1) && (value <= 65535);
+      }
+    },
     gatewaysmin: {
       description: 'Enter the start TCP port for tunnel connections (0 for random)',
       required: true,
@@ -359,7 +368,7 @@ function start(datadir) {
       seeds: config.network.seeds,
       noforward: !config.network.forward,
       logger: new Logger(),
-      tunport: config.network.port ? config.network.port + 1 : 0,
+      tunport: config.network.tunnelport,
       tunnels: config.network.tunnels,
       gateways: config.network.gateways,
       opcodes: !Array.isArray(config.network.opcodes) ?
@@ -434,6 +443,7 @@ if (!fs.existsSync(program.datadir)) {
         opcodes: ['0f01020202', '0f02020202', '0f03020202'],
         forward: result.forward,
         tunnels: result.tunnels,
+        tunnelport: result.tunnelport,
         gateways: { min: result.gatewaysmin, max: result.gatewaysmax }
       },
       telemetry: {
