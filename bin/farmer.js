@@ -390,7 +390,7 @@ function start(datadir) {
     if (config.telemetry.enabled) {
       try {
         report(storj.TelemetryReporter(
-          'http://status.storj.io',
+          'https://status.storj.io',
           keypair
         ), config, farmer);
       } catch (err) {
