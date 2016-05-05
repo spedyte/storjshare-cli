@@ -15,6 +15,7 @@ var prompt = require('prompt');
 var url = require('url');
 var colors = require('colors/safe');
 var Logger = require('kad-logger-json');
+var TelemetryReporter = require('storj-telemetry-reporter');
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
@@ -389,7 +390,7 @@ function start(datadir) {
 
     if (config.telemetry.enabled) {
       try {
-        report(storj.TelemetryReporter(
+        report(TelemetryReporter(
           'https://status.storj.io',
           keypair
         ), config, farmer);
