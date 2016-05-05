@@ -274,6 +274,11 @@ function report(reporter, config, farmer) {
         payment: config.address
       };
 
+      process.stdout.write(JSON.stringify({type: 'info',
+          message: 'telemetry report ' + JSON.stringify(report),
+          timestamp: new Date()
+        }) + '\n');
+
       reporter.send(report, function(err, report) {
         process.stdout.write(JSON.stringify({
           type: err ? 'error' : 'info',
