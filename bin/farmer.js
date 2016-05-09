@@ -263,8 +263,8 @@ function report(reporter, config, farmer) {
 
       var report = {
         storage: {
-          free: totalSpace,
-          used: size
+          free: Number((totalSpace - size).toFixed()),
+          used: Number(size.toFixed())
         },
         bandwidth: {
           upload: bandwidth ? Number(bandwidth.upload) : 0,
@@ -273,6 +273,11 @@ function report(reporter, config, farmer) {
         contact: farmer._contact,
         payment: config.address
       };
+
+      process.stdout.write(JSON.stringify({type: 'info',
+          message: 'telemetry report ' + JSON.stringify(report),
+          timestamp: new Date()
+        }) + '\n');
 
       reporter.send(report, function(err, report) {
         process.stdout.write(JSON.stringify({
