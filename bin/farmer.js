@@ -263,8 +263,8 @@ function report(reporter, config, farmer) {
 
       var report = {
         storage: {
-          free: totalSpace,
-          used: size
+          free: Number((totalSpace - size).toFixed()),
+          used: Number(size.toFixed())
         },
         bandwidth: {
           upload: bandwidth ? Number(bandwidth.upload) : 0,
