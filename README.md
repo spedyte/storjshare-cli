@@ -9,20 +9,20 @@ Installation
 Install *globally* with NPM:
 
 ```
-[sudo] npm install -g storj-farmer
+[sudo] npm install -g storjshare-cli
 ```
 
 Update old version *globally* with NPM:
 
 ```
-[sudo] npm update -g storj-farmer
+[sudo] npm update -g storjshare-cli
 ```
 
 Once installed, you will have access to the `storjfarm` command line interface. To
 make sure everything installed correctly, run:
 
 ```
-storjfarm --help
+storjshare --help
 ```
 
 The first time you run the `storj` program, it will walk you through a setup
@@ -30,24 +30,24 @@ wizard to generate a configuration file and an ECDSA private key which will be
 encrypted with a pass phrase of your choice.
 
 ```
-> $ storjfarm
+> $ storjshare
 
  Let's setup your Storj configuration!
 
- STORJ-FARMER-CLI >> Enter your public hostname or IP address >>  (127.0.0.1)
- STORJ-FARMER-CLI >> Enter the TCP port number the service should use (0 for random) >>  (0)
- STORJ-FARMER-CLI >> Use NAT traversal strategies to become available on the network >>  (true)
- STORJ-FARMER-CLI >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/593844dc7f0076a1aeda9a6b9788af17e67c1052)
- STORJ-FARMER-CLI >> Enter the path to store configuration and data >>  (/home/gordon/.storj-farmer-cli)
- STORJ-FARMER-CLI >> Enter the amount of storage space you can share >>  (5MB)
- STORJ-FARMER-CLI >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
- STORJ-FARMER-CLI >> Will you share telemetry data with Storj to help improve the network? >>  (false) true
- STORJ-FARMER-CLI >> Enter the number of tunnel connection other farmer can open through you >>  (3)
- STORJ-FARMER-CLI >> Enter the TCP port number the tunnel server should use (0 for random) >>  (0)
- STORJ-FARMER-CLI >> Enter the start TCP port for tunnel connections (0 for random) >>  (0)
- STORJ-FARMER-CLI >> Enter the end TCP port for tunnel connections (0 for random) >>  (0)
- STORJ-FARMER-CLI >> Enter the path to store your encrypted private key >>  (/home/gordon/.storj-farmer-cli/id_ecdsa)
- STORJ-FARMER-CLI >> Enter a password to protect your private key >>  ********
+ STORJSHARE >> Enter your public hostname or IP address >>  (127.0.0.1)
+ STORJSHARE >> Enter the TCP port number the service should use (0 for random) >>  (0)
+ STORJSHARE >> Use NAT traversal strategies to become available on the network >>  (true)
+ STORJSHARE >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/593844dc7f0076a1aeda9a6b9788af17e67c1052)
+ STORJSHARE >> Enter the path to store configuration and data >>  (/home/gordon/.storj-farmer-cli)
+ STORJSHARE >> Enter the amount of storage space you can share >>  (5MB)
+ STORJSHARE >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
+ STORJSHARE >> Will you share telemetry data with Storj to help improve the network? >>  (false) true
+ STORJSHARE >> Enter the number of tunnel connection other farmer can open through you >>  (3)
+ STORJSHARE >> Enter the TCP port number the tunnel server should use (0 for random) >>  (0)
+ STORJSHARE >> Enter the start TCP port for tunnel connections (0 for random) >>  (0)
+ STORJSHARE >> Enter the end TCP port for tunnel connections (0 for random) >>  (0)
+ STORJSHARE >> Enter the path to store your encrypted private key >>  (/home/gordon/.storj-farmer-cli/id_ecdsa)
+ STORJSHARE >> Enter a password to protect your private key >>  ********
 ```
 
 Once the setup wizard has completed, you will be asked to decrypt your key and
@@ -71,7 +71,7 @@ Now you can instruct PM2 to start your farmer in the background and keep it
 running, restarting it automatically in the event that it goes down.
 
 ```
-pm2 start path/to/storj-farmer/bin/farmer.js -- --password <your_password>
+pm2 start path/to/storjshare-cli/bin/farmer.js -- --password <your_password>
 ```
 
 Check the logs at any time with:
@@ -118,7 +118,7 @@ For complete documentation on the format of the configuration file, see
 License
 -------
 
-Storj Farmer - A command line program for farming data on the Storj network.
+StorjShare CLI - A command line program for farming data on the Storj network.
 Copyright (C) 2016  Storj Labs, Inc
 
 This program is free software: you can redistribute it and/or modify

@@ -22,7 +22,7 @@ var CONFNAME = 'config.json';
 var SPEEDTEST_URL = 'ws://speedofme.storj.io';
 var SPEEDTEST_RESULT_PATH = path.join(require('os').tmpdir(), 'speedtest.json');
 
-prompt.message = colors.white.bold(' STORJ-FARMER-CLI');
+prompt.message = colors.white.bold(' STORJSHARE');
 prompt.delimiter = colors.blue(' >> ');
 
 program
@@ -33,7 +33,7 @@ program
   .option(
     '-d, --datadir [path]',
     'Set configuration and storage path',
-    path.join(HOME, '.storj-farmer-cli')
+    path.join(HOME, '.storjshare')
   )
   .option(
     '-p, --password [password]',
@@ -152,7 +152,7 @@ var schema = {
     keypath: {
       description: 'Enter the path to store your encrypted private key',
       required: true,
-      default: path.join(program.datadir || path.join(HOME, '.storj-farmer-cli'), 'id_ecdsa'),
+      default: path.join(program.datadir || path.join(HOME, '.storjshare'), 'id_ecdsa'),
       message: 'Refusing to overwrite the supplied path',
       conform: function(value) {
         return fs.existsSync(path.dirname(value)) &&
