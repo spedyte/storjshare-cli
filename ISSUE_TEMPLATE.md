@@ -1,6 +1,6 @@
 ### Package Versions
 
-Replace the values below using the output from `storjfarm --version`.
+Replace the values below using the output from `storjshare --version`.
 
 ```
 Farmer: v2.2.4

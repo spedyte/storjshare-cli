@@ -18,7 +18,7 @@ Update old version *globally* with NPM:
 [sudo] npm update -g storjshare-cli
 ```
 
-Once installed, you will have access to the `storjfarm` command line interface. To
+Once installed, you will have access to the `storjshare` command line interface. To
 make sure everything installed correctly, run:
 
 ```
