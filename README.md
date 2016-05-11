@@ -1,5 +1,5 @@
-Storj Farmer
-============
+Storj Share CLI
+===============
 
 A command line program for farming data on the Storj network.
 
