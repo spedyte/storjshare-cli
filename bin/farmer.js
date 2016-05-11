@@ -263,7 +263,7 @@ function report(reporter, config, farmer) {
 
       var report = {
         storage: {
-          free: totalSpace,
+          free: Number(totalSpace.toFixed()),
           used: size
         },
         bandwidth: {
@@ -364,6 +364,9 @@ function start(datadir) {
         size: config.storage.size,
         unit: config.storage.unit
       },
+      manager: storj.Manager(
+        storj.LevelDBStorageAdapter(path.join(config.storage.path, 'storj.db'))
+      ),
       address: config.network.address,
       port: config.network.port,
       seeds: config.network.seeds,
