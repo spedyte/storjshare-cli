@@ -369,6 +369,9 @@ function start(datadir) {
         size: config.storage.size,
         unit: config.storage.unit
       },
+      manager: storj.Manager(
+        storj.LevelDBStorageAdapter(path.join(config.storage.path, 'storj.db'))
+      ),
       address: config.network.address,
       port: config.network.port,
       seeds: config.network.seeds,

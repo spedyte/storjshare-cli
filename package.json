@@ -1,10 +1,10 @@
 {
-  "name": "storj-farmer",
-  "version": "2.2.7",
+  "name": "storjshare-cli",
+  "version": "3.0.0",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
-    "storjfarm": "bin/farmer.js"
+    "storjshare": "bin/farmer.js"
   },
   "repository": {
     "type": "git",
@@ -13,14 +13,16 @@
   "keywords": [
     "storj",
     "farmer",
-    "cli"
+    "cli",
+    "storjshare",
+    "share"
   ],
   "author": "Gordon Hall <gordon@storj.io>",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/storj/farmer-cli/issues"
+    "url": "https://github.com/storj/storjshare-cli/issues"
   },
-  "homepage": "https://github.com/storj/farmer-cli#readme",
+  "homepage": "https://github.com/storj/storjshare-cli#readme",
   "dependencies": {
     "async": "^1.5.2",
     "bs58": "^3.0.0",
@@ -29,7 +31,7 @@
     "kad-logger-json": "^0.1.2",
     "myspeed": "^1.0.1",
     "prompt": "^1.0.0",
-    "storj": "^0.6.10",
+    "storj": "^0.6.12",
     "storj-telemetry-reporter": "Storj/telemetry-reporter"
   }
 }
