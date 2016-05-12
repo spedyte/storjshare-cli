@@ -38,7 +38,7 @@ encrypted with a pass phrase of your choice.
  STORJSHARE >> Enter the TCP port number the service should use (0 for random) >>  (0)
  STORJSHARE >> Use NAT traversal strategies to become available on the network >>  (true)
  STORJSHARE >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/593844dc7f0076a1aeda9a6b9788af17e67c1052)
- STORJSHARE >> Enter the path to store configuration and data >>  (/home/gordon/.storj-farmer-cli)
+ STORJSHARE >> Enter the path to store configuration and data >>  (/home/gordon/.storjshare)
  STORJSHARE >> Enter the amount of storage space you can share >>  (5MB)
  STORJSHARE >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
  STORJSHARE >> Will you share telemetry data with Storj to help improve the network? >>  (false) true
@@ -46,7 +46,7 @@ encrypted with a pass phrase of your choice.
  STORJSHARE >> Enter the TCP port number the tunnel server should use (0 for random) >>  (0)
  STORJSHARE >> Enter the start TCP port for tunnel connections (0 for random) >>  (0)
  STORJSHARE >> Enter the end TCP port for tunnel connections (0 for random) >>  (0)
- STORJSHARE >> Enter the path to store your encrypted private key >>  (/home/gordon/.storj-farmer-cli/id_ecdsa)
+ STORJSHARE >> Enter the path to store your encrypted private key >>  (/home/gordon/.storjshare/id_ecdsa)
  STORJSHARE >> Enter a password to protect your private key >>  ********
 ```
 
