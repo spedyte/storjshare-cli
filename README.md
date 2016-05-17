@@ -37,7 +37,7 @@ encrypted with a pass phrase of your choice.
  STORJSHARE >> Enter your public hostname or IP address >>  (127.0.0.1)
  STORJSHARE >> Enter the TCP port number the service should use (0 for random) >>  (0)
  STORJSHARE >> Use NAT traversal strategies to become available on the network >>  (true)
- STORJSHARE >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/593844dc7f0076a1aeda9a6b9788af17e67c1052)
+ STORJSHARE >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/78cfca0e01235db817728aec056d007672ffac63)
  STORJSHARE >> Enter the path to store configuration and data >>  (/home/gordon/.storjshare)
  STORJSHARE >> Enter the amount of storage space you can share >>  (5MB)
  STORJSHARE >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
