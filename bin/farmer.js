@@ -20,7 +20,6 @@ var TelemetryReporter = require('storj-telemetry-reporter');
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
 var SPEEDTEST_URL = 'ws://speedofme.storj.io';
-var SPEEDTEST_RESULT_PATH = path.join(require('os').tmpdir(), 'speedtest.json');
 
 prompt.message = colors.white.bold(' STORJSHARE');
 prompt.delimiter = colors.blue(' >> ');
@@ -179,6 +178,13 @@ var keypass = {
   }
 };
 
+function getSpeedTestResultPath(nodeid) {
+  return path.join(
+    require('os').tmpdir(),
+    'speedtest-' + nodeid + '.json'
+  );
+}
+
 function getDirectorySize(dir, callback) {
   fs.stat(dir, function(err, stats) {
     if (err || !stats.isDirectory()) {
@@ -233,8 +239,9 @@ function decrypt(password, str) {
 }
 
 function report(reporter, config, farmer) {
-  var bandwidth = fs.existsSync(SPEEDTEST_RESULT_PATH) ?
-                  fs.readFileSync(SPEEDTEST_RESULT_PATH).toString() :
+  var speedTestResultPath = getSpeedTestResultPath(farmer._keypair.getNodeID());
+  var bandwidth = fs.existsSync(speedTestResultPath) ?
+                  fs.readFileSync(speedTestResultPath).toString() :
                   null;
   var needstest = false;
   var hours25 = 60 * 60 * 25 * 1000;
@@ -320,7 +327,7 @@ function report(reporter, config, farmer) {
         timestamp: Date.now()
       };
 
-      fs.writeFileSync(SPEEDTEST_RESULT_PATH, JSON.stringify(bandwidth));
+      fs.writeFileSync(speedTestResultPath, JSON.stringify(bandwidth));
       send();
     });
   } else {
