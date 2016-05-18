@@ -422,7 +422,12 @@ function start(datadir) {
 }
 
 if (!fs.existsSync(program.datadir)) {
-  console.log('\n Let\'s setup your Storj configuration!\n');
+  console.log('\n ' + colors.bold.underline(
+    'Let\'s setup your StorjShare configuration!')
+  );
+  console.log(colors.italic(
+    ' The data directory does not exist yet; it will be created.\n')
+  );
 
   prompt.start();
 
