@@ -108,13 +108,6 @@ might like to tweak these settings to better suit your hardware.
 See [Contract Topics](http://storj.github.io/core/tutorial-contract-topics.html)
 for more information on which opcodes you should use.
 
-
-Configuration
--------------
-
-For complete documentation on the format of the configuration file, see
-[Abstract Interfaces](http://storj.github.io/core/tutorial-abstract-interfaces.html).
-
 License
 -------
 
