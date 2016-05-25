@@ -90,6 +90,16 @@ var schema = {
         return true;
       }
     },
+    loglevel: {
+      description: 'Enter the verbosity level for the logs (0-4)',
+      required: true,
+      default: 3,
+      type: 'number',
+      message: 'Invalid level supplied, must be 0 - 4',
+      conform: function(value) {
+        return value <= 4 && value >= 0;
+      }
+    },
     space: {
       description: 'Enter the amount of storage space you can share',
       required: true,
@@ -380,7 +390,7 @@ function start(datadir) {
       port: config.network.port,
       seeds: config.network.seeds,
       noforward: !config.network.forward,
-      logger: new Logger(),
+      logger: new Logger(config.loglevel),
       tunport: config.network.tunnelport,
       tunnels: config.network.tunnels,
       gateways: config.network.gateways,
@@ -467,7 +477,8 @@ if (!fs.existsSync(program.datadir)) {
       telemetry: {
         service: 'https://status.storj.io',
         enabled: result.telemetry
-      }
+      },
+      loglevel: result.loglevel
     };
 
     fs.writeFileSync(
