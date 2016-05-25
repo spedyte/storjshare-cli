@@ -61,7 +61,7 @@ var schema = {
       description: 'Use NAT traversal strategies to become available on the network',
       required: true,
       type: 'boolean',
-      default: storj.Network.DEFAULTS.forward
+      default: !storj.Network.DEFAULTS.noforward
     },
     seed: {
       description: 'Enter the URI of a known seed',
