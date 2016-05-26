@@ -25,3 +25,9 @@ guides & documentation does.
 
 If we miss a milestones (probably because we are working hard), just let
 us know so we can get you your swag. 
+
+Style Guide
+-----------
+We adhere to
+[Felix's Node.js Style Guide](https://github.com/felixge/node-style-guide).
+Please take the time to review the style guide and take care to follow it.
