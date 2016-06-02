@@ -42,7 +42,7 @@ nvm install 4.4.4
 
 Download [Node.js LTS](https://nodejs.org/en/download/) for Windows, launch the
 installer and follow the setup instructions. Restart your PC, then test it from
-`powershell`:
+the command prompt:
 
 ```
 node --version
@@ -53,14 +53,23 @@ Install the [latest version of Python 2.7](https://www.python.org/ftp/python/2.7
 launch the installer and follow the instructions. To use Python from the shell
 and add it to the system you have to add the path in "System Variables":
 
-Navigate to: `Control Panel > System > Advanced System Settings > Environment
-Variables > System Variables > Path > Edit`, then add `;C:\Python27` or the
-installation path. Test it in Powershell or cmd by running `python -V`.
+Navigate to:
+
+```
+Control Panel > System > Advanced System Settings > Environment Variables > System Variables > Path > Edit
+```
+
+Then add `;C:\Python27` or the installation path and test it in the command
+prompt by running:
+
+```
+python -V
+```
 
 Next, install [Git](https://git-for-windows.github.io/) for your Windows
 version. Then, install [Visual Studio Community 2015](https://www.visualstudio.com/)
-and during the setup choose `Custom installation > Programming Languages` and
-select "Visual C++" and "Common Tools for Visual C++".
+and during the setup choose `Custom Installation > Programming Languages` and
+select **Visual C++** and **Common Tools for Visual C++**.
 
 Finally, set the new environment variable in the Windows command prompt with:
 
@@ -71,9 +80,9 @@ setx GYP_MSVS_VERSION 2015
 Installation
 ------------
 
-Afterwards installing the prerequisites you should have access to the `node`
-and `npm` programs. Use `npm` to install StorjShare CLI *globally* (this links
-the executable to your PATH):
+After installing the prerequisites you should have access to the `node` and
+`npm` programs. Use `npm` to install StorjShare CLI *globally* (this links the
+executable to your PATH):
 
 ```
 npm install -g storjshare-cli

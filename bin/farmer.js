@@ -127,7 +127,7 @@ var ACTIONS = {
       prompt.start();
       prompt.get(WizardSchema(env), function(err, result) {
         if (err) {
-          return log('error', err);
+          return log('error', err.message);
         }
 
         var size = parseFloat(result.space);
