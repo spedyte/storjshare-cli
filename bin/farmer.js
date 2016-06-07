@@ -13,7 +13,7 @@ var Logger = require('kad-logger-json');
 var WizardSchema = require('../lib/wizard-schema');
 var UnlockSchema = require('../lib/unlock-schema');
 var TelemetryReporter = require('storj-telemetry-reporter');
-var report = require('../lib/reporter');
+var reporter = require('../lib/reporter');
 var utils = require('../lib/utils');
 var log = require('../lib/logger');
 
@@ -97,7 +97,7 @@ var ACTIONS = {
 
       if (config.telemetry.enabled) {
         try {
-          report(TelemetryReporter(
+          reporter.report(TelemetryReporter(
             'https://status.storj.io',
             keypair
           ), config, farmer);
