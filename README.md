@@ -3,59 +3,144 @@ Storj Share CLI
 
 A command line program for farming data on the Storj network.
 
+Prerequisites
+-------------
+
+* Node.js v4.x.x
+* Git
+* Python v2.x.x
+
+### Installing on GNU/Linux & Mac OSX
+
+Install Node.js and it's package manager NPM using Node Version Manager:
+
+```
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash
+```
+
+> Detailed NVM installation instructions can be found [here](https://github.com/creationix/nvm#install-script).
+
+After NVM is install, source your `~/.bashrc`, `~/.profile`, or `~/.zshrc`
+depending on your shell of choice:
+
+```
+source ~/.zshrc
+```
+
+Now that you can call the `nvm` program, install Node.js (which comes with NPM):
+
+```
+nvm install 4.4.4
+```
+
+> You'll also need to make sure you have a C++ compiler installed before
+> proceeding to the next step. Debian based distributions can install the
+> `build-essential` package using APT and Mac OSX users can install with
+> `xcode-select --install` and follow the wizard.
+
+### Installing on Windows
+
+Download [Node.js LTS](https://nodejs.org/en/download/) for Windows, launch the
+installer and follow the setup instructions. Restart your PC, then test it from
+the command prompt:
+
+```
+node --version
+npm --version
+```
+
+Install the [latest version of Python 2.7](https://www.python.org/ftp/python/2.7.11/python-2.7.11.amd64.msi),
+launch the installer and follow the instructions. To use Python from the shell
+and add it to the system you have to add the path in "System Variables":
+
+Navigate to:
+
+```
+Control Panel > System > Advanced System Settings > Environment Variables > System Variables > Path > Edit
+```
+
+Then add `;C:\Python27` or the installation path and test it in the command
+prompt by running:
+
+```
+python -V
+```
+
+Next, install [Git](https://git-for-windows.github.io/) for your Windows
+version. Then, install [Visual Studio Community 2015](https://www.visualstudio.com/)
+and during the setup choose `Custom Installation > Programming Languages` and
+select **Visual C++** and **Common Tools for Visual C++**.
+
+Finally, set the new environment variable in the Windows command prompt with:
+
+````
+setx GYP_MSVS_VERSION 2015
+```
+
 Installation
 ------------
 
-Install *globally* with NPM:
+After installing the prerequisites you should have access to the `node` and
+`npm` programs. Use `npm` to install StorjShare CLI *globally* (this links the
+executable to your PATH):
 
 ```
-[sudo] npm install -g storjshare-cli
+npm install -g storjshare-cli
 ```
 
-Update old version *globally* with NPM:
+Once the installation completes, you'll have access to the `storjshare` program.
+You can later update the version with NPM:
 
 ```
-[sudo] npm update -g storjshare-cli
+npm update -g storjshare-cli
 ```
 
-Once installed, you will have access to the `storjshare` command line interface. To
-make sure everything installed correctly, run:
+Once installed, you will have access to the `storjshare` command line interface.
+To make sure everything installed correctly, run:
 
 ```
 storjshare --help
 ```
 
-The first time you run the `storj` program, it will walk you through a setup
-wizard to generate a configuration file and an ECDSA private key which will be
-encrypted with a pass phrase of your choice.
+Before you can start farming, you'll need to run the setup wizard. It will walk
+you through generating a configuration file and an ECDSA private key which will
+be encrypted with a passphrase of your choice.
 
 ```
-> $ storjshare
+> $ storjshare setup
 
  Let's setup your Storj configuration!
 
- STORJSHARE >> Enter your public hostname or IP address >>  (127.0.0.1)
- STORJSHARE >> Enter the TCP port number the service should use (0 for random) >>  (0)
- STORJSHARE >> Use NAT traversal strategies to become available on the network >>  (true)
- STORJSHARE >> Enter the URI of a known seed >>  (storj://api.metadisk.org:8443/78cfca0e01235db817728aec056d007672ffac63)
- STORJSHARE >> Enter the path to store configuration and data >>  (/home/gordon/.storjshare)
- STORJSHARE >> Enter the amount of storage space you can share >>  (5MB)
- STORJSHARE >> Enter a payment address to receive rewards (telemetry must be enabled) >>  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
- STORJSHARE >> Will you share telemetry data with Storj to help improve the network? >>  (false) true
- STORJSHARE >> Enter the number of tunnel connection other farmer can open through you >>  (3)
- STORJSHARE >> Enter the TCP port number the tunnel server should use (0 for random) >>  (0)
- STORJSHARE >> Enter the start TCP port for tunnel connections (0 for random) >>  (0)
- STORJSHARE >> Enter the end TCP port for tunnel connections (0 for random) >>  (0)
- STORJSHARE >> Enter the path to store your encrypted private key >>  (/home/gordon/.storjshare/id_ecdsa)
- STORJSHARE >> Enter a password to protect your private key >>  ********
+ [...] > Enter your public hostname or IP address >  (127.0.0.1)
+ [...] > Enter the TCP port number the service should use (0 for random) >  (0)
+ [...] > Use NAT traversal strategies to become available on the network >  (true)
+ [...] > Enter the URI of a known seed >>  (storj://api.storj.io:8443/78cfca0e01235db817728aec056d007672ffac63)
+ [...] > Enter the path to store configuration and data >  (/home/gordon/.storjshare)
+ [...] > Enter the amount of storage space you can share >  (5MB)
+ [...] > Enter a payment address to receive rewards (telemetry must be enabled) >  19yTbd85U2QrnUvburphe1kHxKBgR92WYj
+ [...] > Will you share telemetry data with Storj to help improve the network? >  (false) true
+ [...] > Enter the number of tunnel connection other farmer can open through you >  (3)
+ [...] > Enter the TCP port number the tunnel server should use (0 for random) >  (0)
+ [...] > Enter the start TCP port for tunnel connections (0 for random) >  (0)
+ [...] > Enter the end TCP port for tunnel connections (0 for random) >  (0)
+ [...] > Enter the path to store your encrypted private key >  (/home/gordon/.storjshare/id_ecdsa)
+ [...] > Enter a password to protect your private key >  ********
 ```
 
-Once the setup wizard has completed, you will be asked to decrypt your key and
-the program will connect to the network.
+Once the setup wizard has completed, you can begin farming by running:
+
+```
+> $ storjshare start
+```
 
 You can run multiple instances by specifying a different data directory using
-the `--datadir` option. If no configuration has been created for the given
-data directory, then the setup wizard will run again.
+the `--datadir` option.
+
+```
+> $ storjshare setup --datadir /path/to/custom/datadir
+...
+> $ storjshare start --datadir /path/to/custom/datadir
+```
 
 Running in the Background
 -------------------------
@@ -71,7 +156,7 @@ Now you can instruct PM2 to start your farmer in the background and keep it
 running, restarting it automatically in the event that it goes down.
 
 ```
-pm2 start path/to/storjshare-cli/bin/farmer.js -- --password <your_password>
+pm2 start path/to/storjshare-cli/bin/storjshare.js -- start --password <your_password>
 ```
 
 Check the logs at any time with:
