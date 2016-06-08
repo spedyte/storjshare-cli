@@ -123,6 +123,10 @@ var ACTIONS = {
     }
   },
   setup: function setup(env) {
+    if (typeof env === 'string') {
+      return log('error', 'Invalid argument supplied: %s', [env]);
+    }
+
     if (!fs.existsSync(env.datadir)) {
       prompt.start();
       prompt.get(WizardSchema(env), function(err, result) {
@@ -144,7 +148,7 @@ var ACTIONS = {
           network: {
             address: result.address,
             port: result.port,
-            seeds: [result.seed],
+            seeds: result.seed ? [result.seed] : [],
             opcodes: ['0f01020202', '0f02020202', '0f03020202'],
             forward: result.forward,
             tunnels: result.tunnels,

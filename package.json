@@ -1,10 +1,10 @@
 {
   "name": "storjshare-cli",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
-    "storjshare": "bin/farmer.js"
+    "storjshare": "bin/storjshare.js"
   },
   "repository": {
     "type": "git",
