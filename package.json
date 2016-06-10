@@ -18,6 +18,12 @@
     "share"
   ],
   "author": "Gordon Hall <gordon@storj.io>",
+  "contributors": [
+    {
+      "name": "Philip Hutchins",
+      "url": "https://phutchins.com"
+    }
+  ],
   "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/storj/storjshare-cli/issues"
