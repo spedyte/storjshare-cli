@@ -65,7 +65,7 @@ var ACTIONS = {
       var keypair = storj.KeyPair(privkey);
       var farmerconf = {
         keypair: keypair,
-        payment: config.address,
+        payment: { address: config.address },
         storage: {
           path: env.datadir,
           size: config.storage.size,
@@ -98,7 +98,7 @@ var ACTIONS = {
       if (config.telemetry.enabled) {
         try {
           reporter.report(TelemetryReporter(
-            'https://status.storj.io',
+            config.telemetry.service,
             keypair
           ), config, farmer);
         } catch (err) {
@@ -182,13 +182,6 @@ var ACTIONS = {
       log('error', 'Directory %s already exists', [env.datadir]);
     }
   },
-  keygen: function keygen() {
-    var kp = new storj.KeyPair();
-
-    log('info', 'Private Key: %s', [kp.getPrivateKey()]);
-    log('info', 'Public Key:  %s', [kp.getPublicKey()]);
-    log('info', 'Node ID:     %s', [kp.getNodeID()]);
-  },
   fallthrough: function fallthrough(command) {
     log(
       'error',
@@ -223,11 +216,6 @@ program
     path.join(HOME, '.storjshare')
   )
   .action(ACTIONS.setup);
-
-program
-  .command('keygen')
-  .description('utility for generating an ecdsa keypair')
-  .action(ACTIONS.keygen);
 
 program
   .command('*')
