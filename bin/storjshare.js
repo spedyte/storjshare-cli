@@ -72,6 +72,9 @@ var ACTIONS = {
           unit: config.storage.unit
         },
         address: config.network.address,
+        concurrency: !config.network.concurrency ?
+                     storj.FarmerInterface.DEFAULTS.concurrency :
+                     config.network.concurrency,
         port: config.network.port,
         seeds: config.network.seeds,
         noforward: !config.network.forward,
