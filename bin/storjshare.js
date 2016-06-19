@@ -112,8 +112,9 @@ var ACTIONS = {
       }
     }
 
-    if (env.password) {
-      open(env.password, privkey);
+    var password = env.password || process.env.PASSWORD;
+    if (password) {
+      open(password, privkey);
     } else {
       prompt.start();
       prompt.get(UnlockSchema(program), function(err, result) {
