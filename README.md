@@ -102,12 +102,15 @@ To make sure everything installed correctly, run:
 storjshare --help
 ```
 
+Setup
+------------
+
 Before you can start farming, you'll need to run the setup wizard. It will walk
 you through generating a configuration file and an ECDSA private key which will
 be encrypted with a passphrase of your choice.
 
 ```
-> $ storjshare setup
+storjshare setup
 
  Let's setup your Storj configuration!
 
@@ -126,20 +129,24 @@ be encrypted with a passphrase of your choice.
  [...] > Enter the path to store your encrypted private key >  (/home/gordon/.storjshare/id_ecdsa)
  [...] > Enter a password to protect your private key >  ********
 ```
+The setup wizard should now be completed.
 
-Once the setup wizard has completed, you can begin farming by running:
+Usage
+------------
+
+Now that the setup wizard has completed, you can begin farming by running:
 
 ```
-> $ storjshare start
+storjshare start
 ```
 
 You can run multiple instances by specifying a different data directory using
 the `--datadir` option.
 
 ```
-> $ storjshare setup --datadir /path/to/custom/datadir
+storjshare setup --datadir /path/to/custom/datadir
 ...
-> $ storjshare start --datadir /path/to/custom/datadir
+storjshare start --datadir /path/to/custom/datadir
 ```
 
 Running in the Background
