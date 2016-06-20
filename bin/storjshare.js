@@ -56,7 +56,7 @@ var ACTIONS = {
 
     function open(passwd, privkey) {
       try {
-        privkey = utils.decrypt(passwd, privkey);
+        privkey = storj.utils.simpleDecrypt(passwd, privkey);
       } catch (err) {
         log('error', 'Failed to unlock private key, incorrect password');
         process.exit();
@@ -172,7 +172,7 @@ var ACTIONS = {
 
         fs.writeFileSync(
           config.keypath,
-          utils.encrypt(result.password, storj.KeyPair().getPrivateKey())
+          storj.utils.simpleEncrypt(result.password, storj.KeyPair().getPrivateKey())
         );
 
         log(
