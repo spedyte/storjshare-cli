@@ -142,6 +142,13 @@ the `--datadir` option.
 > $ storjshare start --datadir /path/to/custom/datadir
 ```
 
+You can also have the private key's password retrieved from the environment
+variable `STORJSHARE_PASSPHRASE`
+
+```
+> $ STORJSHARE_PASSPHRASE=sup3rS3crEt storjshare start
+```
+
 Running in the Background
 -------------------------
 
