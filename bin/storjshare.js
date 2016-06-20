@@ -112,7 +112,8 @@ var ACTIONS = {
       }
     }
 
-    var password = env.password || process.env.PASSWORD;
+    var password = env.password || process.env.STORJSHARE_PASSPHRASE;
+
     if (password) {
       open(password, privkey);
     } else {
