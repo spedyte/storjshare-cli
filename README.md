@@ -40,16 +40,18 @@ nvm install 4.4.4
 
 ### Installing on Windows
 
-<b>Automated Script</b>
-<br/>1.) Download Latest Release of storj-automation (`https://github.com/Storj/storj-automation/archive/master.zip`) 
-<br/>2.) Extract ZIP, and navigate to `storj-automation-master\windows\storjshare-cli-automate`
-<br/>3.) Double-click `install.bat`
-<br/>4.) (if prompted) Click Yes on the User Account Control (UAC) screen 
-<br/>5.) (if applicable) Reboot when completed
-<br/>6.) Double-click `install.bat`
-<br/>7.) Installation should be completed. Follow `https://github.com/Storj/storjshare-cli#usage` to complete.
+Automated Script
+```
+ 1.) Download Latest Release of storj-automation (`https://github.com/Storj/storj-automation/archive/master.zip`) 
+ 2.) Extract ZIP, and navigate to `storj-automation-master\windows\storjshare-cli-automate`
+ 3.) Double-click `install.bat`
+ 4.) (if prompted) Click Yes on the User Account Control (UAC) screen 
+ 5.) (if applicable) Reboot when completed
+ 6.) Double-click `install.bat`
+ 7.) Installation should be completed. Follow `https://github.com/Storj/storjshare-cli#usage` to complete.
+```
 
-<b>Manual</b>
+Manual
 
 Download [Node.js LTS](https://nodejs.org/en/download/) for Windows, launch the
 installer and follow the setup instructions. Restart your PC, then test it from
@@ -164,7 +166,7 @@ You can also have the private key's password retrieved from the environment
 variable `STORJSHARE_PASSPHRASE`
 
 ```
-> $ STORJSHARE_PASSPHRASE=sup3rS3crEt storjshare start
+> STORJSHARE_PASSPHRASE=sup3rS3crEt storjshare start
 ```
 
 Running in the Background
