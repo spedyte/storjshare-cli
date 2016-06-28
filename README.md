@@ -40,6 +40,17 @@ nvm install 4.4.4
 
 ### Installing on Windows
 
+Automated Script
+ 1. Download Latest Release of storj-automation (<a href="https://github.com/Storj/storj-automation/archive/master.zip">https://github.com/Storj/storj-automation/archive/master.zip</a>) 
+ 2. Extract ZIP, and navigate to `storj-automation-master\windows\storjshare-cli-automate`
+ 3. Double-click `install.bat`
+ 4. (if prompted) Click Yes on the User Account Control (UAC) screen 
+ 5. (if applicable) Reboot when completed
+ 6. Double-click `install.bat`
+ 7. Installation should be completed. Follow <a href="https://github.com/Storj/storjshare-cli#usage">https://github.com/Storj/storjshare-cli#usage</a> to complete.
+
+#### Manual
+
 Download [Node.js LTS](https://nodejs.org/en/download/) for Windows, launch the
 installer and follow the setup instructions. Restart your PC, then test it from
 the command prompt:
@@ -153,7 +164,7 @@ You can also have the private key's password retrieved from the environment
 variable `STORJSHARE_PASSPHRASE`
 
 ```
-> $ STORJSHARE_PASSPHRASE=sup3rS3crEt storjshare start
+> STORJSHARE_PASSPHRASE=sup3rS3crEt storjshare start
 ```
 
 Running in the Background
