@@ -72,7 +72,7 @@ var ACTIONS = {
           unit: config.storage.unit
         },
         address: config.network.address,
-        concurrency: !config.network.concurrency ?
+        concurrency: typeof config.network.concurrency === 'undefined' ?
                      storj.FarmerInterface.DEFAULTS.concurrency :
                      config.network.concurrency,
         port: config.network.port,
@@ -158,7 +158,8 @@ var ACTIONS = {
             forward: result.forward,
             tunnels: result.tunnels,
             tunnelport: result.tunnelport,
-            gateways: { min: result.gatewaysmin, max: result.gatewaysmax }
+            gateways: { min: result.gatewaysmin, max: result.gatewaysmax },
+            concurrency: result.concurrency
           },
           telemetry: {
             service: 'https://status.storj.io',
