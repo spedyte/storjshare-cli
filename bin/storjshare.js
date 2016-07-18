@@ -29,6 +29,18 @@ program.version(
   'Protocol:   ' + storj.version.protocol
 );
 
+function _loadConfig(datadir) {
+  try {
+    return JSON.parse(
+      fs.readFileSync(path.join(datadir, CONFNAME)).toString()
+    );
+  } catch (err) {
+    return log('error', 'Failed to parse configuration at: %s',[
+      path.join(datadir, CONFNAME)
+    ]);
+  }
+}
+
 var ACTIONS = {
   start: function start(env) {
     if (!fs.existsSync(env.datadir)) {
@@ -49,9 +61,7 @@ var ACTIONS = {
       process.exit();
     }
 
-    var config = JSON.parse(
-      fs.readFileSync(path.join(env.datadir, CONFNAME)).toString()
-    );
+    var config = _loadConfig(env.datadir);
     var privkey = fs.readFileSync(config.keypath).toString();
 
     function open(passwd, privkey) {
