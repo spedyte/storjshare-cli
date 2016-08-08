@@ -41,25 +41,29 @@ function _loadConfig(datadir) {
   }
 }
 
+function _checkDatadir(env) {
+  if (!fs.existsSync(env.datadir)) {
+    log(
+      'error',
+      'The datadir does not exist, run: storjshare setup --datadir %s',
+      [env.datadir]
+    );
+    process.exit();
+  }
+
+  if (!fs.existsSync(path.join(env.datadir, CONFNAME))) {
+    log(
+      'error',
+      'No configuration found in datadir, run: storjshare setup --datadir %s',
+      [env.datadir]
+    );
+    process.exit();
+  }
+}
+
 var ACTIONS = {
   start: function start(env) {
-    if (!fs.existsSync(env.datadir)) {
-      log(
-        'error',
-        'The datadir does not exist, run: storjshare setup --datadir %s',
-        [env.datadir]
-      );
-      process.exit();
-    }
-
-    if (!fs.existsSync(path.join(env.datadir, CONFNAME))) {
-      log(
-        'error',
-        'No configuration found in datadir, run: storjshare setup --datadir %s',
-        [env.datadir]
-      );
-      process.exit();
-    }
+    _checkDatadir(env);
 
     var config = _loadConfig(env.datadir);
     var privkey = fs.readFileSync(config.keypath).toString();
@@ -198,6 +202,41 @@ var ACTIONS = {
       log('error', 'Directory %s already exists', [env.datadir]);
     }
   },
+  dumpkey: function(env) {
+    _checkDatadir(env);
+
+    var config = _loadConfig(env.datadir);
+    var privkey = fs.readFileSync(config.keypath).toString();
+    var password = env.password || process.env.STORJSHARE_PASSPHRASE;
+
+    function dump(password) {
+      try {
+        privkey = storj.utils.simpleDecrypt(password, privkey);
+      } catch (err) {
+        log('error', 'Failed to unlock private key, incorrect password');
+        process.exit();
+      }
+
+      log('info', 'Cleartext Private Key:');
+      log('info', '======================');
+      log('info', privkey);
+      log('info', '');
+      log('info', '(This key is suitable for importing into Storj Share GUI)');
+    }
+
+    if (password) {
+      dump(password, privkey);
+    } else {
+      prompt.start();
+      prompt.get(UnlockSchema(program), function(err, result) {
+        if (err) {
+          return log('error', err.message);
+        }
+
+        dump(result.password);
+      });
+    }
+  },
   fallthrough: function fallthrough(command) {
     log(
       'error',
@@ -232,6 +271,21 @@ program
     path.join(HOME, '.storjshare')
   )
   .action(ACTIONS.setup);
+
+program
+  .command('dump-key')
+  .description('prints cleartext private key (suitable for import into gui)')
+  .option(
+    '-d, --datadir [path]',
+    'Set configuration and storage path',
+    path.join(HOME, '.storjshare')
+  )
+  .option(
+    '-p, --password [password]',
+    'Password to unlock your private key',
+    ''
+  )
+  .action(ACTIONS.dumpkey);
 
 program
   .command('*')
