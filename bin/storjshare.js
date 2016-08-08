@@ -231,6 +231,11 @@ program
     'Set configuration and storage path',
     path.join(HOME, '.storjshare')
   )
+  .option(
+    '-p, --password [password]',
+    'Password to unlock your private key',
+    ''
+  )
   .action(ACTIONS.setup);
 
 program
