@@ -16,6 +16,7 @@ var TelemetryReporter = require('storj-telemetry-reporter');
 var reporter = require('../lib/reporter');
 var utils = require('../lib/utils');
 var log = require('../lib/logger');
+var leveldown = require('leveldown');
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
@@ -42,7 +43,7 @@ function _loadConfig(datadir) {
 }
 
 function _checkDatadir(env) {
-  if (!fs.existsSync(env.datadir)) {
+  if (!utils.fileDoesExist(env.datadir)) {
     log(
       'error',
       'The datadir does not exist, run: storjshare setup --datadir %s',
@@ -51,7 +52,7 @@ function _checkDatadir(env) {
     process.exit();
   }
 
-  if (!fs.existsSync(path.join(env.datadir, CONFNAME))) {
+  if (!utils.fileDoesExist(path.join(env.datadir, CONFNAME))) {
     log(
       'error',
       'No configuration found in datadir, run: storjshare setup --datadir %s',
@@ -146,7 +147,7 @@ var ACTIONS = {
       return log('error', 'Invalid argument supplied: %s', [env]);
     }
 
-    if (!fs.existsSync(env.datadir)) {
+    if (!utils.fileDoesExist(env.datadir)) {
       prompt.start();
       prompt.get(WizardSchema(env), function(err, result) {
         if (err) {
@@ -189,7 +190,10 @@ var ACTIONS = {
 
         fs.writeFileSync(
           config.keypath,
-          storj.utils.simpleEncrypt(result.password, storj.KeyPair().getPrivateKey())
+          storj.utils.simpleEncrypt(
+            result.password,
+            storj.KeyPair().getPrivateKey()
+          )
         );
 
         log(
@@ -201,6 +205,31 @@ var ACTIONS = {
     } else {
       log('error', 'Directory %s already exists', [env.datadir]);
     }
+  },
+  repair: function(env) {
+    var dbPath = path.join(env.datadir, 'farmer.db');
+    var db = leveldown(dbPath);
+
+    db.open({ createIfMissing: false }, function(err) {
+      if (err) {
+        return log('error', err.message);
+      }
+
+      db.close(function(err) {
+        if (err) {
+          return log('error', err.message);
+        }
+
+        log('info', 'Initializing DB repair and compaction...');
+        leveldown.repair(path.join(env.datadir, 'farmer.db'), function(err) {
+          if (err) {
+            return log('error', err.message);
+          }
+
+          log('info', 'DB repair and compacation completed successfully!');
+        });
+      });
+    });
   },
   dumpkey: function(env) {
     _checkDatadir(env);
@@ -291,6 +320,16 @@ program
     ''
   )
   .action(ACTIONS.dumpkey);
+
+program
+  .command('repair-db')
+  .description('attempt to repair a corrupt db and force compaction')
+  .option(
+    '-d, --datadir [path]',
+    'Set configuration and storage path',
+    path.join(HOME, '.storjshare')
+  )
+  .action(ACTIONS.repair);
 
 program
   .command('*')
