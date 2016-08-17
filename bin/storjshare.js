@@ -43,7 +43,7 @@ function _loadConfig(datadir) {
 }
 
 function _checkDatadir(env) {
-  if (!fs.existsSync(env.datadir)) {
+  if (!utils.fileDoesExist(env.datadir)) {
     log(
       'error',
       'The datadir does not exist, run: storjshare setup --datadir %s',
@@ -52,7 +52,7 @@ function _checkDatadir(env) {
     process.exit();
   }
 
-  if (!fs.existsSync(path.join(env.datadir, CONFNAME))) {
+  if (!utils.fileDoesExist(path.join(env.datadir, CONFNAME))) {
     log(
       'error',
       'No configuration found in datadir, run: storjshare setup --datadir %s',
@@ -147,7 +147,7 @@ var ACTIONS = {
       return log('error', 'Invalid argument supplied: %s', [env]);
     }
 
-    if (!fs.existsSync(env.datadir)) {
+    if (!utils.fileDoesExist(env.datadir)) {
       prompt.start();
       prompt.get(WizardSchema(env), function(err, result) {
         if (err) {
