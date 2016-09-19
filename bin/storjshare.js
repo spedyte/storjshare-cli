@@ -5,7 +5,7 @@
 var fs = require('fs');
 var path = require('path');
 var program = require('commander');
-var storj = require('storj');
+var storj = require('storj-lib');
 var platform = require('os').platform();
 var prompt = require('prompt');
 var colors = require('colors/safe');
@@ -78,28 +78,30 @@ var ACTIONS = {
       }
 
       var keypair = storj.KeyPair(privkey);
+      var storageAdapter = storj.EmbeddedStorageAdapter(env.datadir);
       var farmerconf = {
-        keypair: keypair,
-        payment: { address: config.address },
-        storage: {
-          path: env.datadir,
-          size: config.storage.size,
-          unit: config.storage.unit
-        },
-        address: config.network.address,
-        concurrency: typeof config.network.concurrency === 'undefined' ?
-                     storj.FarmerInterface.DEFAULTS.concurrency :
-                     config.network.concurrency,
-        port: config.network.port,
-        seeds: config.network.seeds,
-        noforward: !config.network.forward,
+        keyPair: keypair,
+        paymentAddress: config.address,
+        storageManager: storj.StorageManager(storageAdapter, {
+          maxCapacity: storj.utils.toNumberBytes(
+            config.storage.size,
+            config.storage.unit
+          )
+        }),
+        rpcAddress: config.network.address,
+        maxOfferConcurrency: typeof config.network.concurrency === 'undefined' ?
+          storj.FarmerInterface.DEFAULTS.maxOfferConcurrency :
+          config.network.concurrency,
+        rpcPort: config.network.port,
+        seedList: config.network.seeds,
+        doNotTraverseNat: !config.network.forward,
         logger: new Logger(config.loglevel),
-        tunport: config.network.tunnelport,
-        tunnels: config.network.tunnels,
-        gateways: config.network.gateways,
-        opcodes: !Array.isArray(config.network.opcodes) ?
-                 storj.FarmerInterface.DEFAULTS.opcodes :
-                 config.network.opcodes.map(utils.opcodeUpdate)
+        tunnelServerPort: config.network.tunnelport,
+        maxTunnels: config.network.tunnels,
+        tunnelGatewayRange: config.network.gateways,
+        opcodeSubscriptions: !Array.isArray(config.network.opcodes) ?
+          storj.FarmerInterface.DEFAULTS.opcodeSubscriptions :
+          config.network.opcodes.map(utils.opcodeUpdate)
       };
 
       farmerconf.logger.pipe(process.stdout);
