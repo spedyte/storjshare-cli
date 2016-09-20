@@ -1,6 +1,9 @@
 Contributing
 ============
 
+Want to contribute, but not sure where to start? Check out our [issue
+board](http://waffle.io/storj/core)!
+
 This package is a simple command-line interface wrapper around the
 [`FarmerInterface`](http://storj.github.io/core/FarmerInterface.html) class
 from [StorjCORE](https://github.com/storj/core). As such, it's very likely that
@@ -9,7 +12,13 @@ bug reports should be opened there. As a general rule:
 * If you experience an issue with network connectivity, unexpected crashes, and
   similar, [open an issue here](https://github.com/storj/core/issues).
 * If you find a problem related to the first run wizard, configuration issues,
-  and similar, [open and issue here](https://github.com/storj/farmer/issues).  
+  and similar, [open and issue here](https://github.com/Storj/storjshare-cli/issues).  
+
+Contributor License Agreement
+-----------------------------
+
+By submitting pull requests, you agree that your work may be licensed under GNU Affero General Public License Version 3 (or later).
+You also assert that you have completed the [Contributor License Agreement](https://storj.io/cla).
 
 Pull Requests for Swag
 ----------------------
