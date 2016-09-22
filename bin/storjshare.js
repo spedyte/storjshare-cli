@@ -94,7 +94,7 @@ var ACTIONS = {
           config.network.concurrency,
         rpcPort: config.network.port,
         seedList: config.network.seeds,
-        renterWhitelist: config.renterWhitelist,
+        renterWhitelist: config.network.renterWhitelist,
         doNotTraverseNat: !config.network.forward,
         logger: new Logger(config.loglevel),
         tunnelServerPort: config.network.tunnelport,
