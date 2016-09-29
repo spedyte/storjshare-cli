@@ -93,6 +93,7 @@ var ACTIONS = {
           storj.FarmerInterface.DEFAULTS.maxOfferConcurrency :
           config.network.concurrency,
         rpcPort: config.network.port,
+        maxConnections: config.network.maxConnections,
         seedList: config.network.seeds,
         renterWhitelist: config.network.renterWhitelist,
         doNotTraverseNat: !config.network.forward,
