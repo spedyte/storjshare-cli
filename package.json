@@ -51,6 +51,6 @@
     "myspeed": "^1.0.1",
     "prompt": "^1.0.0",
     "storj-lib": "^4.0.0",
-    "storj-telemetry-reporter": "Storj/telemetry-reporter"
+    "storj-telemetry-reporter": "^2.0.0"
   }
 }
