@@ -210,31 +210,6 @@ var ACTIONS = {
       log('error', 'Directory %s already exists', [env.datadir]);
     }
   },
-  repair: function(env) {
-    var dbPath = path.join(env.datadir, 'farmer.db');
-    var db = leveldown(dbPath);
-
-    db.open({ createIfMissing: false }, function(err) {
-      if (err) {
-        return log('error', err.message);
-      }
-
-      db.close(function(err) {
-        if (err) {
-          return log('error', err.message);
-        }
-
-        log('info', 'Initializing DB repair and compaction...');
-        leveldown.repair(path.join(env.datadir, 'farmer.db'), function(err) {
-          if (err) {
-            return log('error', err.message);
-          }
-
-          log('info', 'DB repair and compacation completed successfully!');
-        });
-      });
-    });
-  },
   dumpkey: function(env) {
     _checkDatadir(env);
 
@@ -324,16 +299,6 @@ program
     ''
   )
   .action(ACTIONS.dumpkey);
-
-program
-  .command('repair-db')
-  .description('attempt to repair a corrupt db and force compaction')
-  .option(
-    '-d, --datadir [path]',
-    'Set configuration and storage path',
-    path.join(HOME, '.storjshare')
-  )
-  .action(ACTIONS.repair);
 
 program
   .command('*')
