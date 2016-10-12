@@ -1,6 +1,6 @@
 {
   "name": "storjshare-cli",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "command line program for farming on the storj network",
   "preferGlobal": true,
   "bin": {
