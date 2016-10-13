@@ -113,6 +113,10 @@ To make sure everything installed correctly, run:
 storjshare --help
 ```
 
+> Note: You will need to configure an SJCX address (counterparty) to receive 
+> funds. This can be set up through [CounterWallet (web)](https://counterwallet.io/) 
+> or [IndieSquare (mobile app)](https://wallet.indiesquare.me/).
+
 Setup
 ------------
 
