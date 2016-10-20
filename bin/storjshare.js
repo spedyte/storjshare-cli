@@ -17,6 +17,7 @@ var reporter = require('../lib/reporter');
 var utils = require('../lib/utils');
 var log = require('../lib/logger');
 var leveldown = require('leveldown');
+var bitcore = storj.deps.bitcore;
 
 var HOME = platform !== 'win32' ? process.env.HOME : process.env.USERPROFILE;
 var CONFNAME = 'config.json';
@@ -29,6 +30,11 @@ program.version(
   'Core:       ' + storj.version.software + '\n' +
   'Protocol:   ' + storj.version.protocol
 );
+
+function _isValidPayoutAddress(address) {
+  return bitcore.Address.isValid(address) ||
+         bitcore.Address.isValid(address, bitcore.Networks.testnet);
+}
 
 function _loadConfig(datadir) {
   try {
@@ -67,6 +73,11 @@ var ACTIONS = {
     _checkDatadir(env);
 
     var config = _loadConfig(env.datadir);
+    if (!_isValidPayoutAddress(config.address.trim())) {
+      log('error', 'Invalid payout address');
+      process.exit();
+    }
+
     var privkey = fs.readFileSync(config.keypath).toString();
 
     function open(passwd, privkey) {
@@ -81,7 +92,7 @@ var ACTIONS = {
       var storageAdapter = storj.EmbeddedStorageAdapter(env.datadir);
       var farmerconf = {
         keyPair: keypair,
-        paymentAddress: config.address,
+        paymentAddress: config.address.trim(),
         storageManager: storj.StorageManager(storageAdapter, {
           maxCapacity: storj.utils.toNumberBytes(
             config.storage.size,
