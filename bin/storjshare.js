@@ -123,7 +123,9 @@ var ACTIONS = {
 
       farmer.join(function(err) {
         if (err) {
-          log('error', err.message);
+          farmerconf.logger.error(
+            'failed to join network, reason: %s', err.message
+          );
           process.exit();
         }
       });
