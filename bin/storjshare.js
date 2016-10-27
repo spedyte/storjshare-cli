@@ -183,6 +183,7 @@ var ACTIONS = {
             unit: unit
           },
           network: {
+            renterWhitelist: ["<renterNodeID>"],
             address: result.address,
             port: result.port,
             seeds: result.seed ? [result.seed] : [],
