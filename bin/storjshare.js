@@ -183,7 +183,7 @@ var ACTIONS = {
             unit: unit
           },
           network: {
-            renterWhitelist: ["<renterNodeID>"],
+            renterWhitelist: ["globantSotorj"],
             address: result.address,
             port: result.port,
             seeds: result.seed ? [result.seed] : [],
